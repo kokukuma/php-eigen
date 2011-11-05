@@ -59,10 +59,6 @@ static int le_eigen;
  */
 const zend_function_entry eigen_functions[] = {
 	PHP_FE(confirm_eigen_compiled,	NULL)		/* For testing, remove later. */
-	PHP_FE(eigenworld, NULL)
-	PHP_FE(Eigen2, NULL)
-	PHP_ME(Eigen2,Singular_Value_Decomposition, NULL,0)
-	PHP_ME(Eigen2,Inner_Product, NULL,0)
 	PHP_FE(Eigen_Singular_Value_Decomposition, NULL)
 	PHP_FE(Eigen_Feature_Vector , NULL)
 	PHP_FE(Eigen_Inner_Product, NULL)
@@ -124,12 +120,6 @@ PHP_MINIT_FUNCTION(eigen)
 	/* If you have INI entries, uncomment these lines 
 	REGISTER_INI_ENTRIES();
 	*/
-	zend_class_entry ce;
-	INIT_CLASS_ENTRY(ce, "Eigen2", eigen_functions);
-	eigen_ce = zend_register_internal_class(&ce TSRMLS_CC);
-	zend_declare_property_string(eigen_ce, "interface",strlen("interface"), "eth2", ZEND_ACC_PUBLIC);
-
-
 	return SUCCESS;
 }
 /* }}} */
@@ -244,6 +234,8 @@ PHP_METHOD(Eigen2, Inner_Product)
 	printf("Eigen_IP\n");
 	return;
 }
+
+
 PHP_FUNCTION(Eigen_Singular_Value_Decomposition)
 {
 	// この関数でやってること
@@ -260,10 +252,6 @@ PHP_FUNCTION(Eigen_Singular_Value_Decomposition)
 	int row , column;
 
 	zval *matrix;
-	zval **vector;
-	zval **data;
-	HashTable *hash_vector;
-	HashTable *hash_matrix;
 
 
 	//-------- 配列要素の受け取り
@@ -272,6 +260,7 @@ PHP_FUNCTION(Eigen_Singular_Value_Decomposition)
 
 
 	//-------- Eigen行列に値を格納する 
+		
     Eigen::MatrixXf X = read_matrix(matrix,0); 
 	row    = X.rows();
 	column = X.cols();
@@ -351,6 +340,8 @@ PHP_FUNCTION(Eigen_Singular_Value_Decomposition)
 
 	return;
 }
+
+
 PHP_FUNCTION(Eigen_Feature_Vector)
 {
 	// この関数でやってること
@@ -380,24 +371,8 @@ PHP_FUNCTION(Eigen_Feature_Vector)
 
 
 	//-------- 特徴ベクトルを計算する. 
-    //std::cout << "T : " <<std::endl;
-    //std::cout <<  T_Vector.transpose() <<std::endl;
-    //std::cout << "U : " <<std::endl;
-    //std::cout <<  U_Matrix <<std::endl;
-    //std::cout << "S : " <<std::endl;
-    //std::cout <<  S_Matrix <<std::endl;
-
-	//VectorXf R_Vector = T_Vector.transpose() * (U_Matrix * S_Matrix.inverse());
 	MatrixXf R_Matrix = T_Vector.transpose() * (Matrix * S_Matrix.inverse());
 
-    //std::cout << "R : " <<std::endl;
-    //std::cout <<  R_Matrix <<std::endl;
-
-	//R_Matrix = Matrix * S_Matrix * R_Matrix.transpose(); 
-    //std::cout << "S : " <<std::endl;
-    //std::cout <<  S_Matrix <<std::endl;
-    //std::cout << "R : " <<std::endl;
-    //std::cout <<  R_Matrix <<std::endl;
 
 	//-------- 結果を返却する.(配列を返却)
 	zval *result = make_return_vector(R_Matrix);
@@ -406,6 +381,8 @@ PHP_FUNCTION(Eigen_Feature_Vector)
 
 	return;
 }
+
+
 PHP_FUNCTION(Eigen_Inner_Product)
 {
 	// この関数でやってること
@@ -435,6 +412,8 @@ PHP_FUNCTION(Eigen_Inner_Product)
 	RETURN_DOUBLE(DOT);	
 
 }
+
+
 PHP_FUNCTION(Eigen_COS)
 {
 	// この関数でやってること
@@ -447,8 +426,6 @@ PHP_FUNCTION(Eigen_COS)
 	zval *vector1;	
 	zval *vector2;	
 
-	//HashTable *hash_vector1;
-	//HashTable *hash_vector2;
 
 	int array_num;
 
@@ -502,8 +479,6 @@ PHP_FUNCTION(Eigen_Vector_Length)
 	//-------- 配列の要素数を確認し、Eigenベクトルを定義する 
 	Eigen::VectorXf V1 = read_vector(vector1,1);
 
-    //std::cout << "V : " <<std::endl;
-    //std::cout <<  V1 <<std::endl;
 
 	//-------- ベクトルの大きさを計算 
 	double VL1;
@@ -567,12 +542,6 @@ MatrixXf read_matrix(zval *matrix,int type) {
 
     Eigen::MatrixXf Y(1,1);
 
-	//-------- 初期化
-	//zend_hash_init(hash_vector);	
-	//zend_hash_init(hash_vector,50,NULL,NULL,false);	
-	//zend_hash_init(hash_matrix,50,NULL,NULL,false);	
-	//zend_hash_internal_pointer_reset(hash_vector);	
-	//zend_hash_internal_pointer_reset(hash_matrix);	
 
 	//-------- 行数・列数を確認し、Eigen行列を定義する 
 	// 不完全な行列が渡された場合の対処ができていない.
@@ -580,6 +549,8 @@ MatrixXf read_matrix(zval *matrix,int type) {
 	row = zend_hash_num_elements(hash_matrix);
 	if (zend_hash_get_current_data(hash_matrix, (void **)&vector)==FAILURE)
 		return Y;
+	zval_copy_ctor(*vector);
+
 	// hashtableに格納　 
 	hash_vector = Z_ARRVAL_PP(vector);
 	column = zend_hash_num_elements(hash_vector);	
@@ -596,6 +567,7 @@ MatrixXf read_matrix(zval *matrix,int type) {
 		// 行を読み込み　 
 		if (zend_hash_get_current_data(hash_matrix, (void **)&vector)==FAILURE)
 			return Y;
+		zval_copy_ctor(*vector);
 
 		// hashtableに格納　 
 		hash_vector = Z_ARRVAL_PP(vector);
@@ -604,6 +576,7 @@ MatrixXf read_matrix(zval *matrix,int type) {
 			// 列を読み込み　 
 			if (zend_hash_get_current_data(hash_vector, (void **)&data)==FAILURE)
 				return Y;
+			zval_copy_ctor(*data);
 
 			// Eigen行列に値を格納する 
 			if(type==0){

@@ -46,13 +46,6 @@ PHP_RSHUTDOWN_FUNCTION(eigen);
 PHP_MINFO_FUNCTION(eigen);
 
 PHP_FUNCTION(confirm_eigen_compiled);	/* For testing, remove later. */
-// helloworld
-PHP_FUNCTION(eigenworld);
-// Eigen Function type 1 
-PHP_FUNCTION(Eigen2);
-PHP_METHOD(Eigen2, Singular_Value_Decomposition);
-PHP_METHOD(Eigen2, Inner_Product);
-static zend_class_entry *eigen_ce; 
 // Eigen Function type 2 
 PHP_FUNCTION(Eigen_Singular_Value_Decomposition);
 PHP_FUNCTION(Eigen_Feature_Vector);
