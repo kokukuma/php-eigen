@@ -1,0 +1,48 @@
+
+
+/bin/sh /usr/local/share/php-5.3.8/ext/eigen/libtool --mode=compile /usr/bin/g++  -I. -I/usr/local/share/php-5.3.8/ext/eigen -DPHP_ATOM_INC -I/usr/local/share/php-5.3.8/ext/eigen/include -I/usr/local/share/php-5.3.8/ext/eigen/main -I/usr/local/share/php-5.3.8/ext/eigen -I/usr/include/php -I/usr/include/php/main -I/usr/include/php/TSRM -I/usr/include/php/Zend -I/usr/include/php/ext -I/usr/include/php/ext/date/lib  -DHAVE_CONFIG_H     -c /usr/local/share/php-5.3.8/ext/eigen/eigen.cc -o eigen.lo 
+
+mkdir .libs
+
+ /usr/bin/g++ -I. -I/usr/local/share/php-5.3.8/ext/eigen -DPHP_ATOM_INC -I/usr/local/share/php-5.3.8/ext/eigen/include -I/usr/local/share/php-5.3.8/ext/eigen/main -I/usr/local/share/php-5.3.8/ext/eigen -I/usr/include/php -I/usr/include/php/main -I/usr/include/php/TSRM -I/usr/include/php/Zend -I/usr/include/php/ext -I/usr/include/php/ext/date/lib -DHAVE_CONFIG_H -c /usr/local/share/php-5.3.8/ext/eigen/eigen.cc  -DPIC -o .libs/eigen.o
+
+/usr/local/share/php-5.3.8/ext/eigen/eigen.cc:66: 警告: deprecated conversion from string constant to ‘char*’
+
+/usr/local/share/php-5.3.8/ext/eigen/eigen.cc: In function ‘void zif_confirm_eigen_compiled(int, zval*, zval**, zval*, int)’:
+
+/usr/local/share/php-5.3.8/ext/eigen/eigen.cc:162: 警告: deprecated conversion from string constant to ‘char*’
+
+/bin/sh /usr/local/share/php-5.3.8/ext/eigen/libtool --mode=link /usr/bin/gcc -DPHP_ATOM_INC -I/usr/local/share/php-5.3.8/ext/eigen/include -I/usr/local/share/php-5.3.8/ext/eigen/main -I/usr/local/share/php-5.3.8/ext/eigen -I/usr/include/php -I/usr/include/php/main -I/usr/include/php/TSRM -I/usr/include/php/Zend -I/usr/include/php/ext -I/usr/include/php/ext/date/lib  -DHAVE_CONFIG_H  -g -O2  -L/usr/lib64/mysql -o eigen.la -export-dynamic -avoid-version -prefer-pic -module -rpath /usr/local/share/php-5.3.8/ext/eigen/modules  eigen.lo 
+
+/usr/bin/gcc -shared  .libs/eigen.o  -L/usr/lib64/mysql  -Wl,-soname -Wl,eigen.so -o .libs/eigen.so
+
+
+/usr/bin/ld: .libs/eigen.o: relocation R_X86_64_32 against `eigen_module_entry' can not be used when making a shared object; recompile with -fPIC
+
+.libs/eigen.o: could not read symbols: Bad value
+collect2: ld returned 1 exit status
+make: *** [eigen.la] エラー 1
+
+
+
+
+/bin/sh /usr/local/share/php-5.3.8/ext/eigen/libtool --mode=compile /usr/bin/g++  -I. -I/usr/local/share/php-5.3.8/ext/eigen -DPHP_ATOM_INC -I/usr/local/share/php-5.3.8/ext/eigen/include -I/usr/local/share/php-5.3.8/ext/eigen/main -I/usr/local/share/php-5.3.8/ext/eigen -I/usr/include/php -I/usr/include/php/main -I/usr/include/php/TSRM -I/usr/include/php/Zend -I/usr/include/php/ext -I/usr/include/php/ext/date/lib  -DHAVE_CONFIG_H  -fPIC   -c /usr/local/share/php-5.3.8/ext/eigen/eigen.cc -o eigen.lo 
+
+mkdir .libs
+
+ /usr/bin/g++ -I. -I/usr/local/share/php-5.3.8/ext/eigen -DPHP_ATOM_INC -I/usr/local/share/php-5.3.8/ext/eigen/include -I/usr/local/share/php-5.3.8/ext/eigen/main -I/usr/local/share/php-5.3.8/ext/eigen -I/usr/include/php -I/usr/include/php/main -I/usr/include/php/TSRM -I/usr/include/php/Zend -I/usr/include/php/ext -I/usr/include/php/ext/date/lib -DHAVE_CONFIG_H -fPIC -c /usr/local/share/php-5.3.8/ext/eigen/eigen.cc  -DPIC -o .libs/eigen.o
+
+
+/bin/sh /usr/local/share/php-5.3.8/ext/eigen/libtool --mode=link /usr/bin/g++ -DPHP_ATOM_INC -I/usr/local/share/php-5.3.8/ext/eigen/include -I/usr/local/share/php-5.3.8/ext/eigen/main -I/usr/local/share/php-5.3.8/ext/eigen -I/usr/include/php -I/usr/include/php/main -I/usr/include/php/TSRM -I/usr/include/php/Zend -I/usr/include/php/ext -I/usr/include/php/ext/date/lib  -DHAVE_CONFIG_H  -g -O2  -L/usr/lib64/mysql -o eigen.la -export-dynamic -avoid-version -prefer-pic -module -rpath /usr/local/share/php-5.3.8/ext/eigen/modules  eigen.lo 
+
+creating eigen.la
+
+(cd .libs && rm -f eigen.la && ln -s ../eigen.la eigen.la)
+
+/bin/sh /usr/local/share/php-5.3.8/ext/eigen/libtool --mode=install cp ./eigen.la /usr/local/share/php-5.3.8/ext/eigen/modules
+
+cp ./.libs/eigen.so /usr/local/share/php-5.3.8/ext/eigen/modules/eigen.so
+
+cp: cannot stat `./.libs/eigen.so': No such file or directory
+
+make: *** [/usr/local/share/php-5.3.8/ext/eigen/modules/eigen.la] エラー 1

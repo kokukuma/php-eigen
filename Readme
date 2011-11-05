@@ -1,0 +1,78 @@
+
+【ソフト名】行列計算モジュール php-eigen
+【著作権者】狩野達也
+【制作日】今日
+【種　別】行列の計算（特異値分解,内積,ベクトル長,ベクトル間のコサイン）
+【連絡先】kokuban.kumasan@gmail.com
+【動作環境】CentOS 6 
+【開発環境】CentOS 6 
+
+―――――――――――――――――――――――――――――――――――――
+≪著作権および免責事項≫
+
+　よくわかりません。
+
+―――――――――――――――――――――――――――――――――――――
+
+【はじめに】
+これは潜在意味解析で利用する行列計算を行うためのモジュールです。
+このモジュールでは、C++の行列ライブラリである「Eigen」を利用している。
+http://eigen.tuxfamily.org/index.php?title=Main_Page
+そっち先にいれてください.
+また, メモリ管理はご愛嬌.
+
+
+【インストール方法】
+以下の通り.
+
+・Eigen3
+$ sudo yum install cmake
+$ wget http://bitbucket.org/eigen/eigen/get/3.0.3.tar.gz
+$ tar -xvzf 3.0.3.tar.gz
+$ cd eigen-eigen
+$ mkdir build
+$ cd build
+$ cmake -G "Unix Makefiles" ../
+$ make
+$ sudo make install
+
+・php-eigen
+$ git clone ~;
+$ cd ~;
+$ phpize
+$ ./configure
+$ make
+$ make install 
+$ vi /etc/php.ini
+	"extension=eigen.so"
+
+
+【使い方】
+サンプル見てください.
+
+・eigen_singular_value_Decomposition
+
+$obj = eigen_singular_Value_Decomposition(2次元配列, 0.8); 	
+$obj->U : 左特異行列
+$obj->S : 特異値行列 
+$obj->V : 右特異行列 
+$obj->LSM : 近似された2次元配列(= U * S *V.inverse) 
+
+
+・Eigen_Feature_Vector
+左特異ベクトル = Eigen_Feature_Vector($obj->V, $obj->S, 1次元配列); 	
+
+
+・Eigen_Inner_Product
+内積 = Eigen_Inner_Product(1次元配列, 1次元配列);
+
+
+・Eigen_Vector_Length
+ベクトルの大きさ = Eigen_Vector_Length(1次元配列);
+
+
+・Eigen_COS
+$cos = Eigen_COS(1次元配列, 1次元配列); 	
+
+
+―――――――――――――――――――――――――――――――――――――
